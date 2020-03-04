@@ -44,8 +44,23 @@
  * @param {number[]} nums
  * @return {TreeNode}
  */
+var target = [];
 var sortedArrayToBST = function(nums) {
-    
+    target = nums;
+
+    return helper(0, nums.length - 1);
 };
+
+var helper = function(left, right) {
+    if (left > right) return null;
+
+    const center = Math.ceil((left + right) / 2);
+    const node = new TreeNode(target[center]);
+
+    node.left = helper(left, center - 1);
+    node.right = helper(center + 1, right);
+
+    return node;
+}
 // @lc code=end
 
