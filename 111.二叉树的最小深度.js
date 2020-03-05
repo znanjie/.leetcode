@@ -76,14 +76,18 @@ var minDepth = function(root) {
 
         if (root !== null) {
             depth = Math.min(depth, cur_depth);
-            stack.push({
-                node: root.left,
-                deep: cur_depth + 1
-            });
-            stack.push({
-                node: root.right,
-                deep: cur_depth + 1
-            });
+            if (root.left) {
+                stack.push({
+                    node: root.left,
+                    deep: cur_depth + 1
+                });
+            }
+            if (root.right) {
+                stack.push({
+                    node: root.right,
+                    deep: cur_depth + 1
+                });
+            }
         }
     }
     return depth;
