@@ -46,28 +46,32 @@
  * @param {TreeNode} root
  * @return {number}
  */
-// var minDepth = function(root) {
-//     if (root === null) return 0;
-
-//     const leftDepth = minDepth(root.left);
-//     const rightDepth = minDepth(root.right);
-
-//     if (root.left === null || root.right === null) {
-//         return leftDepth + rightDepth + 1;
-//     }
-
-//     return Math.min(leftDepth, rightDepth) + 1;
-// };
-
 var minDepth = function(root) {
-    let depth = 0;
-    const stack = [];
-    if (root !== null) {
-        stack.push({
-            node: root,
-            deep: 1
-        });
+    if (root === null) return 0;
+
+    const leftDepth = minDepth(root.left);
+    const rightDepth = minDepth(root.right);
+
+    if (root.left === null || root.right === null) {
+        return leftDepth + rightDepth + 1;
     }
+
+    return Math.min(leftDepth, rightDepth) + 1;
+};
+
+/**
+ * 迭代
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function(root) {
+    if (root === null) return 0;
+    let depth = Infinity;
+    const stack = [];
+    stack.push({
+        node: root,
+        deep: 1
+    });
 
     while (stack.length > 0) {
         const cur = stack.shift();
@@ -75,7 +79,9 @@ var minDepth = function(root) {
         root = cur.node;
 
         if (root !== null) {
-            depth = Math.min(depth, cur_depth);
+            if (root.left === null && root.right === null) {
+                depth = Math.min(depth, cur_depth);
+            }
             if (root.left) {
                 stack.push({
                     node: root.left,
