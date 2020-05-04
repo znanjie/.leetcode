@@ -42,6 +42,7 @@
  * @param {TreeNode} root
  * @return {number}
  */
+// 递归
 var sumOfLeftLeaves = function(root) {
     if (root === null) return 0;
 
@@ -51,8 +52,38 @@ var sumOfLeftLeaves = function(root) {
     return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
 };
 
+// 迭代
 var sumOfLeftLeaves = function(root) {
-    
+    if (root === null) return 0;
+
+    const stack = [];
+    let leftSum = 0;
+
+    stack.push({
+        node: root,
+        isLeft: false
+    });
+
+    while (stack.length > 0) {
+        const cur = stack.shift();
+
+        if (cur.isLeft && !cur.node.left && !cur.node.right) {
+            leftSum += cur.node.val;
+        }
+        if (cur.node.left !== null) {
+            stack.push({
+                node: cur.node.left,
+                isLeft: true
+            });
+        }
+        if (cur.node.right !== null) {
+            stack.push({
+                node: cur.node.right,
+                isLeft: false
+            });
+        }
+    }
+
+    return leftSum;
 }
 // @lc code=end
-
