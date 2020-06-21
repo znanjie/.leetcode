@@ -42,8 +42,20 @@
  * @param {number} amount
  * @return {number}
  */
+// 暴力解法
 var coinChange = function(coins, amount) {
+    return (function dp(n) {
+        if (n < 0) return -1;
+        if (n === 0) return 0;
+        let res = Infinity;
 
+        for (const coin of coins) {
+            let sub = dp(n - coin);
+            if (sub === -1) continue;
+            res = Math.min(res, 1 + sub);
+        }
+        return res;
+    })(amount);
 };
 // @lc code=end
 
