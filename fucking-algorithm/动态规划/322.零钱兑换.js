@@ -42,11 +42,13 @@
  * @param {number} amount
  * @return {number}
  */
-// 暴力解法
+// 暴力解法=>备忘录
 var coinChange = function(coins, amount) {
+    var memo = [];
     return (function dp(n) {
         if (n < 0) return -1;
         if (n === 0) return 0;
+        if (memo[n]) return memo[n];
         let res = Infinity;
 
         for (const coin of coins) {
@@ -54,7 +56,8 @@ var coinChange = function(coins, amount) {
             if (sub === -1) continue;
             res = Math.min(res, 1 + sub);
         }
-        return res;
+        memo[n] = res !== Infinity ? res : -1;
+        return memo[n];
     })(amount);
 };
 // @lc code=end
