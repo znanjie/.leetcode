@@ -1,13 +1,12 @@
 var me = function() {
-    console.log(0);
+    let a = 4;
+    while (a >= 0) {
+        console.log('while', a);
+        for (let i = 0; i < 5; i++) {
+            if (i === 2) return i;
+            console.log('for', i);
+        }
+        a--;
+    }
 }
-var me = function() {
-    console.log(1);
-}
-var me = function() {
-    console.log(2);
-}
-var me = function() {
-    console.log(3);
-}
-me();
+console.log(me());

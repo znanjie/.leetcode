@@ -98,5 +98,30 @@ var minDepth = function(root) {
     }
     return depth;
 }
+
+// BFS框架
+var minDepth = function(root) {
+    if (root === null) return 0;
+    const stack = [];
+    stack.push(root);
+    let depth = 1;
+
+    while (stack.length > 0) {
+        const sz = stack.length;
+        for (let i = 0; i < sz; i++) {
+            const cur = stack.shift();
+
+            if (cur.left === null && cur.right === null) return depth;
+            if (cur.left !== null) {
+                stack.push(cur.left);
+            }
+            if (cur.right !== null) {
+                stack.push(cur.right);
+            }
+        }
+        depth++;
+    }
+    return depth;
+}
 // @lc code=end
 
