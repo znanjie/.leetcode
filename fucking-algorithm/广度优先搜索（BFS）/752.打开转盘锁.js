@@ -80,12 +80,13 @@
  * @return {number}
  */
 var openLock = function(deadends, target) {
-    const memo = [];
+    const memo = new Set(deadends);
     const stack = [];
     let step = 0;
 
+    if (memo.has('0000')) return -1;
     stack.push('0000');
-    memo.push('0000');
+    memo.add('0000');
     while (stack.length > 0) {
         const size = stack.length;
 
@@ -93,20 +94,19 @@ var openLock = function(deadends, target) {
             const cur = stack.shift();
 
             // 判断是否是终点
-            if (deadends.includes(cur)) continue;
             if (target === cur) return step;
 
             // 将一个节点的未遍历相邻节点加入队列
             for (let j = 0; j < 4; j++) {
                 const up = plusOne(cur, j);
-                if (!memo.includes(up)) {
+                if (!memo.has(up)) {
                     stack.push(up);
-                    memo.push(up);
+                    memo.add(up);
                 }
                 const down = minusOne(cur, j);
-                if (!memo.includes(down)) {
+                if (!memo.has(down)) {
                     stack.push(down);
-                    memo.push(down);
+                    memo.add(down);
                 }
             }
         }
