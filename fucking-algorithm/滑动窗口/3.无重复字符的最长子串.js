@@ -61,4 +61,29 @@ var lengthOfLongestSubstring = function (string) {
     }
     return res;
 };
+
+/**
+ * @param {string} str
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(str) {
+    let left = 0, right = 0, res = 0;
+    const win = new Map();
+    while (right < str.length) {
+        const cur = str[right];
+        right++;
+        if (win.get(cur)) {
+            win.set(cur, win.get(cur) + 1);
+        } else {
+            win.set(cur, 1);
+        }
+        while (win.get(cur) > 1) {
+            const del = str[left];
+            left++;
+            win.set(del, win.get(del) - 1);
+        }
+        res = Math.max(res, right - left);
+    }
+    return res;
+}
 // @lc code=end
