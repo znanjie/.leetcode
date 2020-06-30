@@ -85,9 +85,7 @@ var findAnagrams = function(s, p) {
                 valid++;
             }
         }
-        console.log(win, valid);
-        // console.log(right - left);
-        while (right - left >= need.size) {
+        while (right - left >= p.length) {
             if (valid === need.size) {
                 res.push(left);
             }
@@ -101,9 +99,7 @@ var findAnagrams = function(s, p) {
             left++;
         }
     }
-    console.log(res);
     return res;
 };
-findAnagrams('baa', 'aa');
 // @lc code=end
 
