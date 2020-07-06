@@ -74,13 +74,13 @@ var maxProfit = function(prices) {
     for (let i = 1; i < n; i++) {
         dp[i][0][0] = 0; // 无任何操作
         // 持股，未卖出过，可能是之前买，可能是今天买
-        dp[i][0][1] = Math.max(dp[i - 1][0][1], dp[i - 1][0][0] - prices[i]);//dp[i][1][0]=max(dp[i-1][0][0]-prices[i],dp[i-1][1][0])
+        dp[i][0][1] = Math.max(dp[i - 1][0][1], dp[i - 1][0][0] - prices[i]);
         // 未持股，卖出过一次，可能是之前卖，可能是今天卖
-        dp[i][1][0] = Math.max(dp[i - 1][1][0], dp[i - 1][0][1] + prices[i]);//dp[i][0][1]=max(dp[i-1][1][0]+prices[i],dp[i-1][0][1])
+        dp[i][1][0] = Math.max(dp[i - 1][1][0], dp[i - 1][0][1] + prices[i]);
         // 未持股，卖出过两次，可能是之前卖，可能是今天卖
-        dp[i][2][0] = Math.max(dp[i - 1][2][0], dp[i - 1][1][1] + prices[i]);//dp[i][0][2]=max(dp[i-1][1][1]+prices[i],dp[i-1][0][2])
+        dp[i][2][0] = Math.max(dp[i - 1][2][0], dp[i - 1][1][1] + prices[i]);
         // 持股，卖出过一次，可能是之前买，可能是今天买
-        dp[i][1][1] = Math.max(dp[i - 1][1][1], dp[i - 1][1][0] - prices[i]);//dp[i][1][1]=max(dp[i-1][0][1]-prices[i],dp[i-1][1][1])
+        dp[i][1][1] = Math.max(dp[i - 1][1][1], dp[i - 1][1][0] - prices[i]);
         // 持股卖出两次=>不可能事件
         dp[i][2][1] = -Infinity;
     }
