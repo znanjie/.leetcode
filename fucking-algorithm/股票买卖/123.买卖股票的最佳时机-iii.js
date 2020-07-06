@@ -65,11 +65,11 @@ var maxProfit = function(prices) {
     dp[0][0][0] = 0; // 第一天休息
     dp[0][0][1] = -prices[0]; // 第一天买入
     // 第一天不可能卖出
-    dp[0][1][0] = Number.MIN_VALUE;
-    dp[0][2][0] = Number.MIN_VALUE;
+    dp[0][1][0] = -Infinity;
+    dp[0][2][0] = -Infinity;
     // 第一天持股不可能卖出
-    dp[0][1][1] = Number.MIN_VALUE;
-    dp[0][2][1] = Number.MIN_VALUE;
+    dp[0][1][1] = -Infinity;
+    dp[0][2][1] = -Infinity;
 
     for (let i = 1; i < n; i++) {
         dp[i][0][0] = 0; // 无任何操作
@@ -82,9 +82,8 @@ var maxProfit = function(prices) {
         // 持股，卖出过一次，可能是之前买，可能是今天买
         dp[i][1][1] = Math.max(dp[i - 1][1][1], dp[i - 1][1][0] - prices[i]);//dp[i][1][1]=max(dp[i-1][0][1]-prices[i],dp[i-1][1][1])
         // 持股卖出两次=>不可能事件
-        dp[i][2][1] = Number.MIN_VALUE;
+        dp[i][2][1] = -Infinity;
     }
-    console.log(dp);
     return Math.max(dp[n - 1][1][0], dp[n - 1][2][0], 0);
 };
 
@@ -108,7 +107,5 @@ var maxProfit = function(prices) {
     }
     return profit_2_out;
 };
-// console.log(maxProfit([1,2,3,4,5]));
-// maxProfit([1,2,3,4,5]);/
 // @lc code=end
 

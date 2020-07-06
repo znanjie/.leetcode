@@ -46,20 +46,38 @@
 var maxProfit = function(prices) {
     const n = prices.length;
     if (n < 1) return 0;
-    const dp = new Array();
+    const dp = new Array(n);
     for (let index = 0; index < n; index++) {
         dp[index] = new Array(2);
     }
 
-    dp[-1] = new Array(2);
-    dp[-1][0] = 0;
-    dp[-1][1] = -Infinity;
-    for (let i = 0; i < n; i++) {
+    // dp[天数][持仓与否], base case
+    dp[0][0] = 0;
+    dp[0][1] = -prices[0];
+    for (let i = 1; i < n; i++) {
+        // 未持仓，可能是之前未持仓，也可能是今天未持仓
         dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+        // 持仓，可能是之前持仓，也可能是今天持仓
         dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
     }
 
     return dp[n - 1][0];
+};
+
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+    const n = prices.length;
+    if (n < 1) return 0;
+
+    let dp_i_0 = 0, dp_i_1 = -prices[0];
+    for (let i = 1; i < n; i++) {
+        dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i]);
+        dp_i_1 = Math.max(dp_i_1, -prices[i]);
+    }
+    return dp_i_0;
 };
 // @lc code=end
 
