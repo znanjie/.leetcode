@@ -34,36 +34,24 @@
 
 // @lc code=start
 /**
+ * 动态规划
  * @param {number[]} nums
  * @return {number}
  */
 var lengthOfLIS = function(nums) {
-    if (nums.length < 1) return 0;
-    if (nums.length === 1) return 1;
-    const dp = [];
-    let max = 0, pre = 0;
+    if (nums.length === 0) return 0;
+    const dp = new Array(nums.length);
 
+    dp.fill(1);
     for (let i = 0; i < nums.length; i++) {
-        pre = nums[i];
-        max++;
-        for (let j = i + 1; j < nums.length; j++) {
-            if (nums[j] > pre) {
-                pre = nums[j];
-                max++;
-            } else if (nums[j] > nums[i]) {
-                pre = nums[j];
-            }
-            if (j === nums.length - 1) {
-                dp[i] = max;
-                max = 0;
+        for (let j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
             }
         }
     }
 
     return Math.max(...dp);
 };
-console.log(lengthOfLIS([4,10,4,3,8,9])); // 3
-console.log(lengthOfLIS([2, 2])); // 1
-console.log(lengthOfLIS([1,3,6,7,9,4,10,5,6])); // 6
 // @lc code=end
 
