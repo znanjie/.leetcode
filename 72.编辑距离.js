@@ -67,7 +67,6 @@ else:
  * @param {string} word2
  * @return {number}
  */
-let m = 0;
 var minDistance = function(word1, word2) {
     return (function dp(i, j) {
         // base case
@@ -78,11 +77,12 @@ var minDistance = function(word1, word2) {
             return dp(i - 1, j - 1);
         }
         return Math.min(
-            dp(i, j - 1), // 插入
-            dp(i - 1, j), // 删除
+            dp(i, j - 1) + 1, // 插入
+            dp(i - 1, j)  + 1, // 删除
             dp(i - 1, j - 1) + 1 // 替换
         )
     })(word1.length - 1, word2.length - 1);
 };
+minDistance('dinitrophenylhydrazine', 'benzalphenylhydrazone');
 // @lc code=end
 
