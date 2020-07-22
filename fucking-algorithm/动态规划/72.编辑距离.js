@@ -68,21 +68,58 @@ else:
  * @return {number}
  */
 var minDistance = function(word1, word2) {
+    const memo = new Map();
     return (function dp(i, j) {
+        if (memo.has(`${i}_${j}`)) return memo.get(`${i}_${j}`);
         // base case
         if (i === -1) return j + 1;
         if (j === -1) return i + 1;
 
         if (word1[i] === word2[j]) {
-            return dp(i - 1, j - 1);
+            memo.set(`${i}_${j}`, dp(i - 1, j - 1))
+            return memo.get(`${i}_${j}`); // 不动
         }
-        return Math.min(
+        const res = Math.min(
             dp(i, j - 1) + 1, // 插入
-            dp(i - 1, j)  + 1, // 删除
+            dp(i - 1, j) + 1, // 删除
             dp(i - 1, j - 1) + 1 // 替换
         )
+        memo.set(`${i}_${j}`, res);
+        return res;
     })(word1.length - 1, word2.length - 1);
 };
-minDistance('dinitrophenylhydrazine', 'benzalphenylhydrazone');
+
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var minDistance = function(word1, word2) {
+    const len1 = word1.length, len2 = word2.length;
+    const dp = new Array(len1 + 1);
+
+    for (let i = 0; i <= len1 ; i++) {
+        dp[i] = new Array(len2 + 1);
+        dp[i][0] = i;
+    }
+    for (let j = 1; j <= len2; j++) {
+        dp[0][j] = j;
+    }
+    // 自底向上
+    for (let i = 1; i <= len1; i++) {
+        for (let j = 1; j <= len2; j++) {
+            if (word1[i - 1] === word2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = Math.min(
+                    dp[i - 1][j] + 1, //插入
+                    dp[i][j - 1] + 1, // 删除
+                    dp[i - 1][j - 1] + 1 // 替换
+                )
+            }
+        }
+    }
+    return dp[len1][len2];
+};
 // @lc code=end
 
