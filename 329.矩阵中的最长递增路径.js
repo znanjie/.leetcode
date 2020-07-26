@@ -47,8 +47,35 @@
  * @param {number[][]} matrix
  * @return {number}
  */
-var longestIncreasingPath = function(matrix) {
+// const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]]; // 左右上下
+// let rows = 0, cols = 0;
 
+var longestIncreasingPath = function(matrix) {
+    if (matrix.length === 0 || matrix[0].length === 0) return 0;
+    const DIRS = [[-1, 0], [1, 0], [0, -1], [0, 1]]; // 左右上下
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    const memo = [...new Array(rows)].map(()=> [...new Array(cols).fill(0)])
+    const dfs = (row, col)=> {
+        if (memo[row][col] !== 0) return memo[row][col];
+        memo[row][col]++;
+        for (let i = 0; i < 4; i++) {
+            const newRow = row + DIRS[i][0];
+            const newCol = col + DIRS[i][1];
+            if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && matrix[newRow][newCol] > matrix[row][col]) {
+                memo[row][col] = Math.max(memo[row][col], dfs(newRow, newCol) + 1);
+            }
+        }
+        return memo[row][col];
+    }
+    let ans = 0;
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            ans = Math.max(ans, dfs(i, j));
+        }
+    }
+
+    return ans;
 };
 // @lc code=end
 
