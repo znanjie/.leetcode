@@ -50,28 +50,25 @@
  * @return {boolean}
  */
 var checkSubarraySum = function(nums, k) {
-    if (nums.length < 2) return false;
-    // const len = nums.length;
-    const memo = new Map();
+    const dp = []
+    dp[0] = nums[0]
+    let result = dp[0]
 
-    return (function (left, right) {
-        if (memo.has(`${left}_${right}`)) return memo.get(`${left}_${right}`);
-        if (right - left < 2) {
-            memo.set(`${left}_${right}`, false);
+    for(let i = 1; i < nums.length; i++) {
+        dp[i] = dp[i - 1] + nums[i]
+    }
+
+    for(let i = 0; i < nums.length - 1; i++) {
+        for(let j = i + 1; j < nums.length; j++) {
+            result = dp[j] - dp[i] + nums[i]
+            if(k === 0 && result === 0 || k !== 0 && result % k === 0) {
+                return true
+            }
         }
-        // TO: 状态转移
-    })(0, nums.length - 1);
-};
+    }
 
-/**
- * @param {number} num
- * @param {number} k
- * @return {boolean}
- */
-function isValidation(num, k) {
-    const res = num / k;
-    if (Number.isInteger(res) && res !== 0) return true;
-    return false;
-}
+    return false
+};
+// console.log(checkSubarraySum([23,2,4,6,7], 6));
 // @lc code=end
 
