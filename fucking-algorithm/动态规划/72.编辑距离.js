@@ -105,7 +105,6 @@ var minDistance = function(word1, word2) {
     for (let j = 1; j <= len2; j++) {
         dp[0][j] = j;
     }
-    // 自底向上
     for (let i = 1; i <= len1; i++) {
         for (let j = 1; j <= len2; j++) {
             if (word1[i - 1] === word2[j - 1]) {

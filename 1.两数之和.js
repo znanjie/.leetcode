@@ -43,5 +43,23 @@ var twoSum = function(nums, target) {
     }
     return []
 }
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    const memo = new Map();
+    for (let i = 0; i < nums.length; i++) {
+        const diff = target - nums[i]
+        if (memo.has(diff)) {
+            return [i, memo.get(diff)];
+        } else {
+            memo.set(nums[i], i);
+        }
+    }
+    return [];
+}
 // @lc code=end
 
