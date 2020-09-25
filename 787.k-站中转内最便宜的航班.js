@@ -68,41 +68,40 @@
  * @param {number} K
  * @return {number}
  */
-var memo = new Map();
 var findCheapestPrice = function(n, flights, src, dst, K) {
-    if (memo.has(`${src}_${dst}_${K}`)) {
-        return memo.get(`${src}_${dst}_${K}`);
-    }
-    if (K === 0) {
-        const cost = flights.map(item=> {
-            if (item[1] === dst && item[0] === src) {
-                return item[2];
+    const memo = new Map();
+
+    return (function dp (start, end, count) {
+        if (memo.has(`${start}_${end}_${count}`)) {
+            return memo.get(`${start}_${end}_${count}`);
+        }
+        if (count === 0) {
+            const cost = flights.map(ele=> {
+                if (ele[0] === start && ele[1] === end) {
+                    return ele[2];
+                }
+                return -1;
+            });
+            const res = cost.filter(item=> item !== -1);
+            return res.length > 0 ? Math.min(...res) : -1;
+        }
+
+        const target = flights.filter(ele=> ele[1] === end);
+        const cost = [];
+
+        while (target.length > 0) {
+            const cur = target.pop();
+            if (cur[0] === start) {
+                cost.push(cur[2]);
+            } else {
+                memo.set(`${start}_${cur[0]}_${count - 1}`, dp(start, cur[0], count - 1));
+                const result = memo.get(`${start}_${cur[0]}_${count - 1}`);
+                if (result !== -1) cost.push(cur[2] + result);
             }
-            return -1;
-        });
+        }
         const res = cost.filter(item=> item !== -1);
         return res.length > 0 ? Math.min(...res) : -1;
-    }
-    const target = flights.filter(item=> item[1] === dst);
-    const cost = [];
-
-    while (target.length > 0) {
-        const cur = target.shift();
-        if (cur[0] === src) {
-            cost.push(cur[2]);
-        } else {
-            memo.set(
-                `${src}_${cur[0]}_${K - 1}`,
-                findCheapestPrice(n, flights, src, cur[0], K - 1)
-            );
-            cost.push(cur[2] + memo.get(`${src}_${cur[0]}_${K - 1}`));
-        }
-    }
-
-    const res = cost.filter(item=> item !== -1);
-    return res.length > 0 ? Math.min(...res) : -1;
+    })(src, dst, K);
 };
-
-findCheapestPrice(5, [[4,1,1],[1,2,3],[0,3,2],[0,4,10],[3,1,1],[1,4,3]], 2, 1, 1);
 // @lc code=end
 
